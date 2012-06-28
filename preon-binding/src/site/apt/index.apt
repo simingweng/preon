@@ -1,0 +1,11 @@
+                                 ----
+                               Preon Binding
+                                 ----
+                                 ----
+
+Preon Binding
+
+  Preon allows you to declaratively bind Java classes to their
+bitstream encoded representation. If that's what you want, then you
+need this module. It builds on top of Preon IO, which provides the
+lower level mechanisms for accessing bitstream encoded data.

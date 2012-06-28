@@ -1,0 +1,11 @@
+                                 ----
+                               Preon EL
+                                 ----
+                                 ----
+
+Preon EL
+
+  Preon allows you to define dependencies between different parts of
+an encoded file using arithmetic and logical expressions. In order to
+support that, it needs its own expression language. This module
+defines that expression language.

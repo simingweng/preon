@@ -8,7 +8,9 @@
 
   <body>
 
-    <menu name="Documentation">
+    <menu ref="parent" inherit="top" />
+
+    <menu name="Documentation" inherit="top">
       <item name="Introduction"
             href="http://www.scribd.com/doc/8128172/Preon-Introduction"/>
       <item name="Under the Hood"
@@ -19,15 +21,9 @@
             href="getting-started.html"/>
     </menu>
 
-    <menu name="Other">
-      <item name="Donations"
-            href="http://sourceforge.net/donate/index.php?group_id=241871"/>
-      <item name="Finding us"
-            href="find-us.html"/>
-    </menu>
+    <menu name="Sub modules" ref="modules" inherit="bottom"/>
 
-    <menu ref="modules"/>
-    <menu ref="reports"/>
+    <menu name="Reports" ref="reports" inherit="bottom"/>
 
   </body>
 
