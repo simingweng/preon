@@ -36,6 +36,7 @@ import nl.flotsam.pecia.Documenter;
 import nl.flotsam.pecia.ParaContents;
 import org.codehaus.preon.*;
 import org.codehaus.preon.annotation.Bound;
+import org.codehaus.preon.annotation.Order;
 import org.codehaus.preon.annotation.BoundObject;
 import org.codehaus.preon.binding.Binding;
 import org.codehaus.preon.binding.BindingFactory;
@@ -51,6 +52,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 /** The {@link CodecFactory} for {@link ObjectCodec}s. */
 public class ObjectCodecFactory implements CodecFactory {
@@ -168,6 +173,29 @@ public class ObjectCodecFactory implements CodecFactory {
         return new HidingAnnotatedElement(BoundObject.class, metadata);
     }
 
+		private static Comparator<Field> fieldOrderComparator = new Comparator<Field>()
+		{
+			@Override
+			public int compare(Field field1, Field field2)
+			{
+				// Get order annotations for both fields.
+				Order orderAnnotation1 = field1.getAnnotation(Order.class);
+				Order orderAnnotation2 = field2.getAnnotation(Order.class);
+
+				// Get the order of both fields. If a field it not annotated with @Order, its order is
+				// set to Integer.MAX_VALUE. This means that fields that are bound but do not have an 
+				// @Order annotation are placed after the fields that do. 
+				int order1 = orderAnnotation1!=null ? orderAnnotation1.value() : Integer.MAX_VALUE;
+				int order2 = orderAnnotation2!=null ? orderAnnotation2.value() : Integer.MAX_VALUE;
+
+				// Compare the order based on the annotations
+				if (order1 == order2)
+					return 0;
+				else
+					return order1 < order2 ? -1 : 1;
+			}
+		};
+
     private <T> void harvestBindings(Class<T> type,
                                      ObjectResolverContext context, CodecReference reference) {
         if (Object.class.equals(type)) {
@@ -175,6 +203,12 @@ public class ObjectCodecFactory implements CodecFactory {
         }
         harvestBindings(type.getSuperclass(), context, reference);
         Field[] fields = type.getDeclaredFields();
+
+        // Sort fields by @Order annotation. Note that since Array.sort is guaranteed to be stable,
+        // fields that do not carry such an annotation are left in the order in which they where
+        // returned by getDeclaredFields.
+				Arrays.sort(fields, fieldOrderComparator);
+
         // For creating the Codecs, we already need a modified
         // ReferenceContext, allowing us to incrementally bind to references
         // of fields declared before.
