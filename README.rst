@@ -62,3 +62,18 @@ Codehaus. The Maven generated documentation can be found `over there
 documentation and a bunch of other things.
 
 
+Android environment
+===================
+
+In order to use preon (this version) in an Android environment, you
+must include in the APK :
+
+- antlr-runtime-3.3.jar  
+- commons-io-1.3.2.jar 
+- preon-el-1.1-SNAPSHOT.jar 
+- preon-io-1.1-SNAPSHOT.jar
+- preon-binding-1.1-SNAPSHOT.jar 
+- preon-emitter-1.1-SNAPSHOT.jar
+
+And use the #Order annotation before each field you define in order for
+Dalvik to guess the right order.
