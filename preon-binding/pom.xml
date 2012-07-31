@@ -20,6 +20,11 @@
     </repository>
   </repositories>
   <dependencies>
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>wstx-lgpl</artifactId>
+			<version>3.2.6</version>
+		</dependency>
     <dependency>
       <groupId>multithreadedtc</groupId>
       <artifactId>multithreadedtc</artifactId>

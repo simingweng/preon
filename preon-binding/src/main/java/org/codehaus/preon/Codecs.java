@@ -58,7 +58,6 @@ import org.codehaus.preon.channel.OutputStreamBitChannel;
 
 import org.apache.commons.io.IOUtils;
 
-import com.ctc.wstx.stax.WstxOutputFactory;
 
 /**
  * A utility class, providing some convenience mechanisms for using and documenting {@link Codec Codecs}.
@@ -130,20 +129,7 @@ public class Codecs {
      */
     public static <T> void document(Codec<T> codec, DocumentType type,
                                     OutputStream out) {
-        WstxOutputFactory documentFactory = new WstxOutputFactory();
-        XmlWriter writer;
-        try {
-            writer = new StreamingXmlWriter(documentFactory
-                    .createXMLStreamWriter(out));
-            DefaultDocumentBuilder builder = type.createDocumentBuilder(writer);
-            ArticleDocument document = new DefaultArticleDocument(builder,
-                    codec.getCodecDescriptor().getTitle());
-            document(codec, document);
-            document.end();
-        } catch (XMLStreamException e) {
-            // In the unlikely event this happens:
-            throw new RuntimeException("Failed to create stream writer.");
-        }
+			// null
     }
 
     /**
